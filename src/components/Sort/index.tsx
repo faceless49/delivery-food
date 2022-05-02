@@ -11,8 +11,10 @@ type SortProps = {
 export const Sort: FC<SortProps> = ({ items }): ReturnComponentType => {
   const [isVisiblePopup, setIsVisiblePopup] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<number>(START_ACTIVE_ITEM);
+
   const activeLabel = items[activeItem];
   const sortRef = useRef<HTMLDivElement>(null);
+
   const toggleVisiblePopup = (): Nullable<void> => setIsVisiblePopup(!isVisiblePopup);
 
   const onSelectItem = (index: number): Nullable<void> => {
@@ -29,6 +31,7 @@ export const Sort: FC<SortProps> = ({ items }): ReturnComponentType => {
     <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <svg
+          className={isVisiblePopup ? 'rotated' : ''}
           width="10"
           height="6"
           viewBox="0 0 10 6"
