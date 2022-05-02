@@ -28,17 +28,18 @@ export const Categories: FC<CategoriesProps> = ({
         >
           Все
         </li>
-        {items.map((name, index) => (
-          <li
-            className={activeItem === index ? 'active' : ''}
-            role="menuitem"
-            onClick={() => onSelectItem(index)}
-            onKeyDown={() => onClickItem(name)}
-            key={`${name}`}
-          >
-            {name}
-          </li>
-        ))}
+        {items &&
+          items.map((name, index) => (
+            <li
+              className={activeItem === index ? 'active' : ''}
+              role="menuitem"
+              onClick={() => onSelectItem(index)}
+              onKeyDown={() => onClickItem(name)}
+              key={`${name}`}
+            >
+              {name}
+            </li>
+          ))}
       </ul>
     </div>
   );
