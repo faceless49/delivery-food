@@ -8,10 +8,18 @@ import { Header } from 'components';
 import { Cart, Home } from 'pages';
 import { PizzasType, ReturnComponentType } from 'types';
 
+const axios = require('axios').default;
+
 const App = (): ReturnComponentType => {
   const [pizzas, setPizzas] = useState<PizzasType[]>([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    axios
+      .get('http://localhost:3000/db.json')
+      .then(({ data }: { data: { pizzas: PizzasType[] } }) => {
+        setPizzas(data.pizzas);
+      });
+  }, []);
 
   return (
     <div className="App">
