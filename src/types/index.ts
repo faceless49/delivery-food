@@ -1,18 +1,13 @@
 export type { Nullable } from './Nullable';
 export type { ReturnComponentType } from './ReturnComponentType';
 
-export type PhotosType = {
-  albumId: number;
+export type PizzasType = {
   id: number;
-  title: string;
-  url: string;
-  thumbnailUrl: string;
-};
-
-export type CommentsType = {
-  postId: number;
-  id: number;
+  imageUrl: string;
   name: string;
-  email: string;
-  body: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+  category?: number;
+  rating?: number;
 };
