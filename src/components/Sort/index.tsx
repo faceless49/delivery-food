@@ -5,14 +5,14 @@ import { Nullable, ReturnComponentType } from 'types';
 import { START_ACTIVE_ITEM } from 'vars';
 
 type SortProps = {
-  items: string[];
+  items: { name: string; type: string }[];
 };
 
 export const Sort: FC<SortProps> = ({ items }): ReturnComponentType => {
   const [isVisiblePopup, setIsVisiblePopup] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<number>(START_ACTIVE_ITEM);
 
-  const activeLabel = items[activeItem];
+  const activeLabel = items[activeItem].name;
   const sortRef = useRef<HTMLDivElement>(null);
 
   const toggleVisiblePopup = (): Nullable<void> => setIsVisiblePopup(!isVisiblePopup);
@@ -57,15 +57,15 @@ export const Sort: FC<SortProps> = ({ items }): ReturnComponentType => {
         <div className="sort__popup">
           <ul>
             {items &&
-              items.map((name, index) => (
+              items.map((obj, index) => (
                 <li
                   className={activeItem === index ? 'active' : ''}
                   role="menuitem"
                   onClick={() => onSelectItem(index)}
                   onKeyDown={() => onSelectItem(index)}
-                  key={`${name}`}
+                  key={`${obj.name}`}
                 >
-                  {name}
+                  {obj.name}
                 </li>
               ))}
           </ul>

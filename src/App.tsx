@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
 import './scss/app.scss';
-
+import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 
 import { Header } from 'components';
 import { Cart, Home } from 'pages';
 import { PizzasType, ReturnComponentType } from 'types';
 
-const axios = require('axios').default;
-
 const App = (): ReturnComponentType => {
   const [pizzas, setPizzas] = useState<PizzasType[]>([]);
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/db.json')
-      .then(({ data }: { data: { pizzas: PizzasType[] } }) => {
-        setPizzas(data.pizzas);
-      });
+      .get('https://617826619c328300175f5e53.mockapi.io/items')
+      .then(({ data }) => setPizzas(data));
   }, []);
 
   return (

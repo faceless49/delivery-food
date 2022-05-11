@@ -12,8 +12,8 @@ export const PizzaBlock: FC<PizzasType> = ({
   price,
   sizes,
 }): ReturnComponentType => {
-  const availableTypes = ['тонкое', 'традиционное'];
-  const availableSizes = [SMALL_SIZE, MID_SIZE, BIG_SIZE];
+  const availableTypes: string[] = ['тонкое', 'традиционное'];
+  const availableSizes: number[] = [SMALL_SIZE, MID_SIZE, BIG_SIZE];
   const [activeType, setActiveType] = useState(types[THIN_TYPE]);
   const [activeSize, setActiveSize] = useState(sizes[SMALL_SIZE]);
 
