@@ -1,15 +1,29 @@
 import React, { FC, useEffect, useState } from 'react';
 
 import { Categories, PizzaBlock, Sort } from 'components';
+import { SortPropertyEnum, SortType } from 'redux/types/types';
 import { PizzasType, ReturnComponentType } from 'types';
 
 export const Home: FC = (): ReturnComponentType => {
   const [items, setItems] = useState<PizzasType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+  const [categoryId, setCategoryId] = useState<number>(0);
+  const [sortType, setSortType] = useState<SortType>({
+    name: 'популярности',
+    sortProperty: SortPropertyEnum.RATING_DESC,
+  });
+
   useEffect(() => {
     setIsLoading(true);
-    fetch('https://617826619c328300175f5e53.mockapi.io/items')
+
+    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
+    const sortBy = sortType.sortProperty.replace('-', '');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-magic-numbers
+    const category = categoryId > 0 ? `category=${categoryId}` : '';
+
+    fetch(`https://617826619c328300175f5e53.mockapi.io/items?${order}&sortBy=${sortBy}`)
       .then(res => {
         res.json();
       })
@@ -20,22 +34,15 @@ export const Home: FC = (): ReturnComponentType => {
       });
     // eslint-disable-next-line @typescript-eslint/no-magic-numbers
     window.scrollTo(0, 0);
-  });
-
+  }, [categoryId, sortType]);
   return (
     <div className="container">
       <div className="content__top">
         <Categories
-          onClickItem={name => console.log(name)}
-          items={['Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые']}
+          value={categoryId}
+          onChangeCategory={(id: number) => setCategoryId(id)}
         />
-        <Sort
-          items={[
-            { name: 'популярности', type: 'popular' },
-            { name: 'цене', type: 'price' },
-            { name: 'алфавиту', type: 'alphabet' },
-          ]}
-        />
+        <Sort value={sortType} onChangeSort={(item: SortType) => setSortType(item)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

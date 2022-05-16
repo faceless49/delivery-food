@@ -1,24 +1,32 @@
 import React, { FC, useRef, useState } from 'react';
 
 import useOnClickOutside from 'hooks/useOnClickOutside';
+import { SortPropertyEnum, SortType } from 'redux/types/types';
 import { Nullable, ReturnComponentType } from 'types';
-import { START_ACTIVE_ITEM } from 'vars';
 
 type SortProps = {
-  items: { name: string; type: string }[];
+  value: SortType;
+  onChangeSort: (item: SortType) => void;
 };
 
-export const Sort: FC<SortProps> = ({ items }): ReturnComponentType => {
+export const Sort: FC<SortProps> = ({ value, onChangeSort }): ReturnComponentType => {
   const [isVisiblePopup, setIsVisiblePopup] = useState<boolean>(false);
-  const [activeItem, setActiveItem] = useState<number>(START_ACTIVE_ITEM);
 
-  const activeLabel = items[activeItem].name;
+  const sortList: SortType[] = [
+    { name: 'популярности (DESC)', sortProperty: SortPropertyEnum.RATING_DESC },
+    { name: 'популярности (ASC)', sortProperty: SortPropertyEnum.RATING_ASC },
+    { name: 'цене (DESC)', sortProperty: SortPropertyEnum.PRICE_DESC },
+    { name: 'цене (ASC)', sortProperty: SortPropertyEnum.PRICE_ASC },
+    { name: 'алфавиту (DESC)', sortProperty: SortPropertyEnum.TITLE_DESC },
+    { name: 'алфавиту (ASC)', sortProperty: SortPropertyEnum.TITLE_ASC },
+  ];
+
   const sortRef = useRef<HTMLDivElement>(null);
 
   const toggleVisiblePopup = (): Nullable<void> => setIsVisiblePopup(!isVisiblePopup);
 
-  const onSelectItem = (index: number): Nullable<void> => {
-    setActiveItem(index);
+  const onClickListItem = (item: SortType): Nullable<void> => {
+    onChangeSort(item);
     setIsVisiblePopup(false);
   };
 
@@ -50,19 +58,19 @@ export const Sort: FC<SortProps> = ({ items }): ReturnComponentType => {
           tabIndex={0}
           onKeyDown={toggleVisiblePopup}
         >
-          {activeLabel}
+          {value.name}
         </span>
       </div>
       {isVisiblePopup && (
         <div className="sort__popup">
           <ul>
-            {items &&
-              items.map((obj, index) => (
+            {sortList &&
+              sortList.map(obj => (
                 <li
-                  className={activeItem === index ? 'active' : ''}
+                  className={value.sortProperty === obj.sortProperty ? 'active' : ''}
                   role="menuitem"
-                  onClick={() => onSelectItem(index)}
-                  onKeyDown={() => onSelectItem(index)}
+                  onClick={() => onClickListItem(obj)}
+                  onKeyDown={() => onClickListItem(obj)}
                   key={`${obj.name}`}
                 >
                   {obj.name}

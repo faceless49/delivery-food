@@ -1,45 +1,32 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 
-import { Nullable, ReturnComponentType } from 'types';
+import { ReturnComponentType } from 'types';
 
 type CategoriesProps = {
-  items: string[];
-  onChangeCategory: (name: string) => void;
+  value: number;
+  onChangeCategory: (id: number) => void;
 };
 
 export const Categories: FC<CategoriesProps> = ({
-  items,
   onChangeCategory,
+  value,
 }): ReturnComponentType => {
-  const [activeItem, setActiveItem] = useState<number | null>(null);
-
-  const onSelectItem = (index: number | null): Nullable<void> => {
-    setActiveItem(index);
-  };
+  const categories = ['Все', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
   return (
     <div className="categories">
       <ul role="menu">
-        <li
-          className={activeItem === null ? 'active' : ''}
-          onClick={() => onSelectItem(null)}
-          onKeyDown={() => onSelectItem(null)}
-          role="menuitem"
-        >
-          Все
-        </li>
-        {items &&
-          items.map((name, index) => (
-            <li
-              className={activeItem === index ? 'active' : ''}
-              role="menuitem"
-              onClick={() => onSelectItem(index)}
-              onKeyDown={() => onChangeCategory(name)}
-              key={`${name}`}
-            >
-              {name}
-            </li>
-          ))}
+        {categories.map((name, index) => (
+          <li
+            className={value === index ? 'active' : ''}
+            role="menuitem"
+            onClick={() => onChangeCategory(index)}
+            onKeyDown={() => onChangeCategory(index)}
+            key={`${name}`}
+          >
+            {name}
+          </li>
+        ))}
       </ul>
     </div>
   );
