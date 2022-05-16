@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 
 import { Header } from 'components';
-import { Cart, Home } from 'pages';
+import { Cart, Home, NotFound } from 'pages';
 import { PizzasType, ReturnComponentType } from 'types';
 
 const App = (): ReturnComponentType => {
@@ -25,6 +25,7 @@ const App = (): ReturnComponentType => {
           <Routes>
             <Route path="/" element={<Home items={pizzas} />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
