@@ -4,12 +4,12 @@ import { Nullable, ReturnComponentType } from 'types';
 
 type CategoriesProps = {
   items: string[];
-  onClickItem: (name: string) => void;
+  onChangeCategory: (name: string) => void;
 };
 
 export const Categories: FC<CategoriesProps> = ({
   items,
-  onClickItem,
+  onChangeCategory,
 }): ReturnComponentType => {
   const [activeItem, setActiveItem] = useState<number | null>(null);
 
@@ -34,7 +34,7 @@ export const Categories: FC<CategoriesProps> = ({
               className={activeItem === index ? 'active' : ''}
               role="menuitem"
               onClick={() => onSelectItem(index)}
-              onKeyDown={() => onClickItem(name)}
+              onKeyDown={() => onChangeCategory(name)}
               key={`${name}`}
             >
               {name}
