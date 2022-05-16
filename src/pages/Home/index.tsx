@@ -1,15 +1,26 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { Categories, PizzaBlock, Sort } from 'components';
 import { PizzasType, ReturnComponentType } from 'types';
 
-type HomePage = {
-  items: PizzasType[];
-};
-
-export const Home: FC<HomePage> = ({ items }): ReturnComponentType => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const Home: FC = (): ReturnComponentType => {
+  const [items, setItems] = useState<PizzasType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetch('https://617826619c328300175f5e53.mockapi.io/items')
+      .then(res => {
+        res.json();
+      })
+      .then(arr => {
+        // @ts-ignore
+        setItems(arr);
+        setIsLoading(false);
+      });
+    // eslint-disable-next-line @typescript-eslint/no-magic-numbers
+    window.scrollTo(0, 0);
+  });
 
   return (
     <div className="container">
