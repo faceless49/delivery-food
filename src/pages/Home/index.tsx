@@ -18,15 +18,15 @@ export const Home: FC = (): ReturnComponentType => {
   useEffect(() => {
     setIsLoading(true);
 
-    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
     const sortBy = sortType.sortProperty.replace('-', '');
+    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-magic-numbers
     const category = categoryId > 0 ? `category=${categoryId}` : '';
 
-    fetch(`https://617826619c328300175f5e53.mockapi.io/items?${order}&sortBy=${sortBy}`)
-      .then(res => {
-        res.json();
-      })
+    fetch(
+      `https://617826619c328300175f5e53.mockapi.io/items?${category}&order=${order}&sortBy=${sortBy}`,
+    )
+      .then(res => res.json())
       .then(arr => {
         // @ts-ignore
         setItems(arr);
@@ -46,20 +46,22 @@ export const Home: FC = (): ReturnComponentType => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading
-          ? // eslint-disable-next-line @typescript-eslint/no-magic-numbers,react/no-array-index-key
-            [...new Array(6)].map((_, i) => <div key={i}>Loading...</div>) // TODO: Skeleton
-          : items.map(({ id, imageUrl, name, types, sizes, price }) => (
-              <PizzaBlock
-                key={id}
-                id={id}
-                imageUrl={imageUrl}
-                name={name}
-                types={types}
-                sizes={sizes}
-                price={price}
-              />
-            ))}
+        {isLoading ? (
+          // eslint-disable-next-line @typescript-eslint/no-magic-numbers,react/no-array-index-key
+          <div>Loading...</div> // [...new Array(6)].map((_, i) => <div key={i}>Loading...</div>) // TODO: Skeleton
+        ) : (
+          items.map(({ id, imageUrl, name, types, sizes, price }) => (
+            <PizzaBlock
+              key={id}
+              id={id}
+              imageUrl={imageUrl}
+              name={name}
+              types={types}
+              sizes={sizes}
+              price={price}
+            />
+          ))
+        )}
       </div>
     </div>
   );

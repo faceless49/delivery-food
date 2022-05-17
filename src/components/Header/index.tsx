@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import logoSvg from 'assets/img/pizza-logo.svg';
 import { Button } from 'components/index';
+import { Search } from 'components/Search';
 import { ReturnComponentType } from 'types';
 
-export const Header = (): ReturnComponentType => (
+type HeaderProps = {
+  searchValue: string;
+  setSearchValue: (value: string) => void;
+};
+
+export const Header: FC<HeaderProps> = ({
+  setSearchValue,
+  searchValue,
+}): ReturnComponentType => (
   <div className="header">
     <div className="container">
       <Link to="/">
@@ -18,6 +27,7 @@ export const Header = (): ReturnComponentType => (
           </div>
         </div>
       </Link>
+      <Search searchValue={searchValue} setSearchValue={setSearchValue} />
       <div className="header__cart">
         <Link to="/cart">
           <Button className="button--cart">
