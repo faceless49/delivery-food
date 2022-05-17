@@ -11,8 +11,14 @@ export const MID_SIZE = 1;
 export const BIG_SIZE = 2;
 
 /**
- * @const Index of types pizzas
+ * @const
+ * Index of types pizzas
  */
-
 export const THIN_TYPE = 0;
 export const TRADITIONAL_TYPE = 1;
+
+/**
+ * @const
+ * Next page constant
+ */
+export const NEXT_PAGE_VALUE = 1;
