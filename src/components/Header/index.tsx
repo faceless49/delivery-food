@@ -7,15 +7,7 @@ import { Button } from 'components/index';
 import { Search } from 'components/Search';
 import { ReturnComponentType } from 'types';
 
-type HeaderProps = {
-  searchValue: string;
-  setSearchValue: (value: string) => void;
-};
-
-export const Header: FC<HeaderProps> = ({
-  setSearchValue,
-  searchValue,
-}): ReturnComponentType => (
+export const Header: FC = (): ReturnComponentType => (
   <div className="header">
     <div className="container">
       <Link to="/">
@@ -27,7 +19,7 @@ export const Header: FC<HeaderProps> = ({
           </div>
         </div>
       </Link>
-      <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+      <Search />
       <div className="header__cart">
         <Link to="/cart">
           <Button className="button--cart">

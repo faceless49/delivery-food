@@ -1,5 +1,6 @@
 {
   "name": "delivery-food",
+  "homepage": "https://faceless49.github.io/delivery-food",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,7 +16,7 @@
     "@types/webpack-env": "^1.16.4",
     "axios": "^0.27.2",
     "classnames": "^2.3.1",
-    "gh-pages": "^3.2.3",
+    "gh-pages": "^4.0.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-paginate": "^8.1.3",
@@ -30,6 +31,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

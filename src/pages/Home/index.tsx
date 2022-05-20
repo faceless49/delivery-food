@@ -1,15 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 
+import { SearchContext } from 'App';
 import { Categories, PizzaBlock, Sort } from 'components';
 import { Pagination } from 'components/Pagination';
 import { SortPropertyEnum, SortType } from 'redux/types/types';
 import { PizzasType, ReturnComponentType } from 'types';
 
-type HomePageProps = {
-  searchValue: string;
-};
-
-export const Home: FC<HomePageProps> = ({ searchValue }): ReturnComponentType => {
+export const Home: FC = (): ReturnComponentType => {
   const [items, setItems] = useState<PizzasType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -21,6 +18,8 @@ export const Home: FC<HomePageProps> = ({ searchValue }): ReturnComponentType =>
   });
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const { searchValue } = useContext(SearchContext);
 
   useEffect(() => {
     setIsLoading(true);

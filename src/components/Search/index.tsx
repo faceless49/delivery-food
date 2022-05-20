@@ -1,18 +1,13 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 
 import styles from './Search.module.scss';
 
+import { SearchContext } from 'App';
 import { Nullable, ReturnComponentType } from 'types';
 
-type SearchProps = {
-  searchValue: string;
-  setSearchValue: (value: string) => void;
-};
+export const Search: FC = (): ReturnComponentType => {
+  const { searchValue, setSearchValue } = useContext(SearchContext);
 
-export const Search: FC<SearchProps> = ({
-  setSearchValue,
-  searchValue,
-}): ReturnComponentType => {
   const onClickClear = (): Nullable<void> => {
     setSearchValue('');
   };
