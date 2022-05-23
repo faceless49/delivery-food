@@ -1,15 +1,17 @@
 import React, { FC, useRef, useState } from 'react';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import useOnClickOutside from 'hooks/useOnClickOutside';
+import { setSort } from 'redux/slices/filterSlice';
+import { RootState } from 'redux/store';
 import { SortPropertyEnum, SortType } from 'redux/types/types';
 import { Nullable, ReturnComponentType } from 'types';
 
-type SortProps = {
-  value: SortType;
-  onChangeSort: (item: SortType) => void;
-};
+export const Sort: FC = (): ReturnComponentType => {
+  const dispatch = useDispatch();
+  const sort = useSelector<RootState, SortType>(state => state.filter.sort);
 
-export const Sort: FC<SortProps> = ({ value, onChangeSort }): ReturnComponentType => {
   const [isVisiblePopup, setIsVisiblePopup] = useState<boolean>(false);
 
   const sortList: SortType[] = [
@@ -26,7 +28,7 @@ export const Sort: FC<SortProps> = ({ value, onChangeSort }): ReturnComponentTyp
   const toggleVisiblePopup = (): Nullable<void> => setIsVisiblePopup(!isVisiblePopup);
 
   const onClickListItem = (item: SortType): Nullable<void> => {
-    onChangeSort(item);
+    dispatch(setSort(item));
     setIsVisiblePopup(false);
   };
 

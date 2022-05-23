@@ -1,31 +1,38 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import { SearchContext } from 'App';
 import { Categories, PizzaBlock, Sort } from 'components';
 import { Pagination } from 'components/Pagination';
-import { SortPropertyEnum, SortType } from 'redux/types/types';
-import { PizzasType, ReturnComponentType } from 'types';
+import { setCategoryId } from 'redux/slices/filterSlice';
+import { RootState } from 'redux/store';
+import { Nullable, PizzasType, ReturnComponentType } from 'types';
 
 export const Home: FC = (): ReturnComponentType => {
+  const dispatch = useDispatch();
+  const categoryId = useSelector<RootState, number>(state => state.filter.categoryId);
+  const sortType = useSelector<RootState, string>(
+    state => state.filter.sort.sortProperty,
+  );
+
   const [items, setItems] = useState<PizzasType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // eslint-disable-next-line @typescript-eslint/no-magic-numbers
-  const [categoryId, setCategoryId] = useState<number>(0);
-  const [sortType, setSortType] = useState<SortType>({
-    name: 'популярности',
-    sortProperty: SortPropertyEnum.RATING_DESC,
-  });
   // eslint-disable-next-line @typescript-eslint/no-magic-numbers
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   const { searchValue } = useContext(SearchContext);
 
+  const onClickCategory = (id: number): Nullable<void> => {
+    dispatch(setCategoryId(id));
+  };
+
   useEffect(() => {
     setIsLoading(true);
 
-    const sortBy = sortType.sortProperty.replace('-', '');
-    const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
+    const sortBy = sortType.replace('-', '');
+    const order = sortType.includes('-') ? 'asc' : 'desc';
     // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-magic-numbers
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
@@ -56,11 +63,8 @@ export const Home: FC = (): ReturnComponentType => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          value={categoryId}
-          onChangeCategory={(id: number) => setCategoryId(id)}
-        />
-        <Sort value={sortType} onChangeSort={(item: SortType) => setSortType(item)} />
+        <Categories value={categoryId} onChangeCategory={onClickCategory} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

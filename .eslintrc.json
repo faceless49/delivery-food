@@ -38,6 +38,16 @@
         "max": 1
       }
     ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": [
+          "state",
+          "store"
+        ]
+      }
+    ],
     "@typescript-eslint/no-shadow": [
       "error"
     ],
